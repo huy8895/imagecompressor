@@ -24,7 +24,7 @@ public class ImageCompressorImpl implements ImageCompressor {
                            .getSid();
         String fileId = upload.getId();
 
-        final var compress = compressImageProxy.compress(sid, fileId, 50);
+        final var compress = compressImageProxy.compress(sid, fileId, quality);
         if (!"success".equals(compress.getStatus())){
             throw new RuntimeException("compress error!!!");
         }

@@ -14,6 +14,7 @@ public class DownLoadImageProxy extends BasedProxy{
 	}
 
 	public byte[] downLoad(String url){
+		log.info("start download: {}", url);
 		return this.Get(url, initHeader(), byte[].class);
 	}
 }

@@ -87,6 +87,12 @@ public class BasedProxy {
 		return response.getBody();
 	}
 
+	protected <T> ResponseEntity<T> Get(String api, Class<T> clazz) {
+		HttpEntity<String> entity = new HttpEntity<String>(initHeader());
+		ResponseEntity<T> response = restTemplate.exchange(api, HttpMethod.GET, entity, clazz);
+		return response;
+	}
+
 	protected <T> T Post(String api, HttpHeaders headers, String payload, Class<T> clazz) {
 		HttpEntity<String> entity = new HttpEntity<String>(payload, headers);
 		ResponseEntity<T> response = restTemplate.exchange(api, HttpMethod.POST, entity, clazz);

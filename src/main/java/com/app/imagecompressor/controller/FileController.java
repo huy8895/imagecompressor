@@ -2,7 +2,6 @@ package com.app.imagecompressor.controller;
 
 import com.app.imagecompressor.proxy.DownLoadImageProxy;
 import com.app.imagecompressor.proxy.UpLoadImageProxy;
-import com.app.imagecompressor.service.v1.ImageCompressor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,7 @@ public class FileController {
     @PostMapping("/v1/upload")
     public Object upload(@RequestParam("file") MultipartFile file) {
         // TODO: 9/18/2022 file.getContentType() == image/jpeg
-        return upLoadImageProxy.upload(file);
+        return upLoadImageProxy.upload(file.getResource(), file.getOriginalFilename());
     }
 
     @GetMapping("/v1/download")

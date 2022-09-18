@@ -26,4 +26,13 @@ public class CompressorController {
                              .contentType(MediaType.valueOf(file.getContentType()))
                              .body(compressData);
     }
+
+    @PostMapping("/v2")
+    public Object compressorV2(@RequestParam("url") String url,
+                               @RequestParam("quality") int quality) {
+        byte[] compressData = imageCompressor.compress(url, quality);
+        return ResponseEntity.ok()
+//                             .contentType(MediaType.valueOf(file.getContentType()))
+                             .body(compressData);
+    }
 }

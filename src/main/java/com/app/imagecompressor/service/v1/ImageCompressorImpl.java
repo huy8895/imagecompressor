@@ -18,7 +18,7 @@ public class ImageCompressorImpl implements ImageCompressor {
     private final CompressImageProxy compressImageProxy;
 
     @Override
-    public Object compress(MultipartFile file, int quality) {
+    public byte[] compress(MultipartFile file, int quality) {
         UploadResDto upload = upLoadImageProxy.upload(file);
         String sid = upload.getImage()
                            .getSid();

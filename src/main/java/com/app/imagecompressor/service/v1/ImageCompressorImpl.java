@@ -5,6 +5,7 @@ import com.app.imagecompressor.proxy.CompressImageProxy;
 import com.app.imagecompressor.proxy.DownLoadImageProxy;
 import com.app.imagecompressor.proxy.UpLoadImageProxy;
 import com.app.imagecompressor.ultil.StringUtils;
+import com.app.imagecompressor.ultil.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
@@ -54,6 +55,7 @@ public class ImageCompressorImpl implements ImageCompressor {
 
         var status = compressImageProxy.status(sid, fileId);
 
+        log.info("status: {}", Utils.toJson(status));
 
 //        https://imagecompressor.com//files/b5q17fkdfdq4r1bo/file_aur1tf51pom1bmh155t177k17k/optimized-negs.jpg?y7n0
         String compressed_url = "https://imagecompressor.com".concat(status.getCompressed_url());

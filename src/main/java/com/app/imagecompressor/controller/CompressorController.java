@@ -18,6 +18,7 @@ public class CompressorController {
     @PostMapping("/v1")
     public Object compressorV1(@RequestParam("file") MultipartFile file,
                                @RequestParam("quality") int quality) {
+        log.info("start api: api/compressor/v1");
         byte[] compressData = imageCompressor.compress(file, quality);
         return ResponseEntity.ok()
                              .contentType(MediaType.valueOf(file.getContentType()))

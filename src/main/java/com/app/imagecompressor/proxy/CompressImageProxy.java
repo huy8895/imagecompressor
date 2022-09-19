@@ -2,10 +2,15 @@ package com.app.imagecompressor.proxy;
 
 import com.app.imagecompressor.dto.compress.CompressStatusResDto;
 import com.app.imagecompressor.dto.compress.CompressedImageResDto;
+import com.app.imagecompressor.ultil.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
@@ -27,7 +32,15 @@ public class CompressImageProxy extends BasedProxy {
                                                  .queryParam("quality", quality)
                                                  .toUriString();
         log.info("urlCompress: {}", urlCompress);
-        return this.Get(urlCompress, initHeader(), CompressStatusResDto.class);
+        try {
+            final var resDto = this.Get(urlCompress, initHeader(), CompressStatusResDto.class);
+            log.info("compress response: {}", Utils.toJson(resDto));
+            return resDto;
+        } catch (Throwable throwable){
+            log.error("error api: {}", urlCompress, throwable);
+            throw new RuntimeException();
+        }
+
     }
 
 
@@ -39,7 +52,17 @@ public class CompressImageProxy extends BasedProxy {
                                                        .path(fileId)
                                                        .toUriString();
         log.info("urlCompressStatus: {}", urlCompressStatus);
-        return this.Get(urlCompressStatus, initHeader(), CompressedImageResDto.class);
+
+        try {
+            final var resDto = this.Get(urlCompressStatus, initHeader(), CompressedImageResDto.class);
+            log.info("check status response: {}", Utils.toJson(resDto));
+
+            if ("success".equals(resDto.getStatus())) return resDto;
+            return this.status(sid, fileId);
+        } catch (Throwable throwable){
+            log.error("error api: {}", urlCompressStatus, throwable);
+            throw new RuntimeException();
+        }
     }
 
 

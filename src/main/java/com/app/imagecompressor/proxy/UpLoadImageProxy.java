@@ -24,6 +24,7 @@ public class UpLoadImageProxy extends BasedProxy{
 	}
 
 	public UploadResDto upload(Resource resource, String originalFilename){
+		log.info("start upload : {}", originalFilename);
 		String url = UPLOAD_URL.concat(StringUtils.randomSid());
 
 		HttpHeaders headers = new HttpHeaders();
